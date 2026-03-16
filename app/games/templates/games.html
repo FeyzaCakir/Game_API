@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% block title %}GAMES{% endblock  %}
+{% block styles %}
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .games-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .game-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 220px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 350px; /* Sabit yükseklik */
+            box-sizing: border-box;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .game-card .name {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #222;
+            margin-bottom: 5px;
+        }
+
+        .game-card .released {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: auto;
+        }
+        /* Flash mesaj container */
+        .flash-container {
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Ortak flash mesaj stili */
+        .flash-message {
+            min-width: 300px;
+            max-width: 400px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            animation: popIn 0.4s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        /* Başarı mesajı */
+        .flash-message.success {
+            background: linear-gradient(135deg, #28a745, #218838);
+        }
+
+        /* Uyarı mesajı */
+        .flash-message.warning {
+            background: linear-gradient(135deg, #ffc107, #e0a800);
+            color: #222;
+        }
+
+        /* Hata mesajı */
+        .flash-message.error {
+            background: linear-gradient(135deg, #dc3545, #bd2130);
+        }
+
+        /* Animasyon */
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .favorites-btn {
+            position: absolute;   /* Sayfa içinde sabit konum */
+            top: 20px;            /* Üstten boşluk */
+            right: 20px;          /* Sağdan boşluk */
+            background-color: #3c0ee0; /* Güzel yeşil arka plan */
+            color: white;         /* Yazı rengi */
+            padding: 10px 18px;   /* İç boşluk */
+            border-radius: 6px;   /* Köşeleri yuvarlat */
+            text-decoration: none;/* Alt çizgiyi kaldır */
+            font-weight: bold;    /* Yazıyı kalın yap */
+            transition: background-color 0.3s ease;
+        }
+
+        .favorites-btn:hover {
+            background-color: #45a049; /* Hover efekti */
+        }
+        .logout-btn {
+            position:absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #000 ;
+            color:white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight:bold;
+            transition: background-color 0.3s ease;
+        }
+        .logout-btn:hover{
+            background-color: #eb0a0a
+        }
+
+    </style>
+{% endblock  %}
+{% block content %}
+
+<h2>GAMES</h2>
+    <div class="games-container">
+        {% for game in games %}
+            <div class="game-card">
+
+                <!-- Detay sayfasına giden link -->
+                <a href="/games/{{ game.id }}">
+                    <img src="{{ game.background_image }}" alt="{{ game.name }}">
+                    <div class="name">{{ game.name }}</div>
+                    <div class="released">{{ game.released }}</div>
+                </a>
+
+               
+
+                <form action="/favorites/add" method="POST">
+                    <input type="hidden" name="game_id" value="{{ game.id }}">
+                    <input type="hidden" name="game_name" value="{{ game.name }}">
+                    <input type="hidden" name="game_image" value="{{ game.background_image }}">
+                    <button type="submit">❤️</button>
+                </form>
+
+                
+    
+            </div>
+        {% endfor %}
+    </div>
+    <a href="/favorites" class="favorites-btn">FAVORITES</a>
+    <a href="/logout" class="logout-btn">LOGOUT</a>
+{% endblock  %}
+
+
+
+
+

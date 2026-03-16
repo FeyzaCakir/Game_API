@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}FAVORITES{% endblock  %}
+{% block styles %}
+<style>
+        /* Flash mesaj container */
+        .flash-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Ortak flash mesaj stili */
+        .flash-message {
+            min-width: 300px;
+            max-width: 400px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            color: #5de866;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            animation: popIn 0.4s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        /* Başarı mesajı */
+        .flash-message.success {
+            background: linear-gradient(135deg, #28a745, #218838);
+        }
+
+        /* Uyarı mesajı */
+        .flash-message.warning {
+            background: linear-gradient(135deg, #ffc107, #e0a800);
+            color: #222;
+        }
+
+        /* Hata mesajı */
+        .flash-message.error {
+            background: linear-gradient(135deg, #dc3545, #bd2130);
+        }
+
+        /* Animasyon */
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .back-btn {
+            position: absolute;   /* Sayfa içinde sabit konum */
+            bottom: 20px;            /* Üstten boşluk */
+            left: 20px;          /* Sağdan boşluk */
+            background-color: #0f0e11; /* Güzel yeşil arka plan */
+            color: white;         /* Yazı rengi */
+            padding: 10px 18px;   /* İç boşluk */
+            border-radius: 6px;   /* Köşeleri yuvarlat */
+            text-decoration: none;/* Alt çizgiyi kaldır */
+            font-weight: bold;    /* Yazıyı kalın yap */
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #e68646; /* Hover efekti */
+        }
+        .card-container {
+            display:flex;
+            flex-wrap:wrap;
+            gap:20 px;
+            justify-content: flex-start;
+        }
+</style>
+{% endblock  %}
+
+{% block content %}
+    <h2>Favoriler</h2>
+
+    {% if favorites %}
+        <div class="card-container">
+            {% for fav in favorites %}
+                <div class="game-card">
+                    <img src="{{ fav.game_image }}" alt="{{ fav.game_name }}" width="200">
+                    <div class="name">{{ fav.game_name }}</div>
+                </div>
+                <form action="/favorites/delete" method="POST">
+                    <input type="hidden" name="favorite_id" value="{{fav.favorite_id}}">
+                    <button type="submit">-</button>
+                </form>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <p>Henüz favori eklemediniz.</p>
+    {% endif %}
+    <a href="/games" class="back-btn">BACK</a>
+{% endblock  %}

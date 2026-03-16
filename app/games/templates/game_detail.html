@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ game.name }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .game-detail {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        .game-detail img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .game-detail h1 {
+            margin: 0;
+            font-size: 2em;
+            color: #333;
+        }
+
+        .game-detail .released {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .game-detail .description {
+            line-height: 1.6;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-detail">
+        <img src="{{game.background_image}}" alt="{{game.name}}" width="400">
+        <h1>{{game.name}}</h1>
+        
+        <div class="released"> Released: {{game.released}}</div>
+
+        <div class="dscription">{{game.description_raw}}</div>
+        <a href="/games">BACK</a>
+    </div>
+</body>
+</html>
